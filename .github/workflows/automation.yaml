@@ -1,0 +1,19 @@
+name: Build Next.js
+on: push
+jobs:
+  build-project:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install NPM dependencies
+        run: npm install
+      - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-step: install
+          test-script: "npm run test:coverage"
+          threshold: 70
+      - name: Build project assets
+        run: npm run build
